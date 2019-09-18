@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Shopify Memory Matcher</string>
+
+    <string name="letters_description">App title image</string>
+    <string name="play_description">Play button</string>
+    <string name="shopify_description">Shopify button</string>
+    <string name="close_description">X button</string>
+
+    <string name="win_message">You Win!</string>
+
+    <string name="access_token">c32313df0d0ef512ca64d5b336a0d7c6</string>
+</resources>
