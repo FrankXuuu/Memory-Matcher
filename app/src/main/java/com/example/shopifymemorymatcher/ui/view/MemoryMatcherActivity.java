@@ -16,6 +16,7 @@ import com.example.shopifymemorymatcher.ui.adapter.CardAdapter;
 import com.example.shopifymemorymatcher.ui.adapter.CardOnClickListener;
 import com.example.shopifymemorymatcher.ui.adapter.CardState;
 import com.example.shopifymemorymatcher.ui.adapter.CustomGridLayoutManager;
+import com.example.shopifymemorymatcher.ui.shared.SessionManager;
 import com.example.shopifymemorymatcher.viewmodel.MemoryMatcherViewModel;
 
 import java.util.List;
@@ -31,6 +32,12 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SessionManager sessionManager = new SessionManager(this);
+
+        if (sessionManager.isDark())
+            setTheme(R.style.AppThemeDark);
+        else
+            setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(MemoryMatcherViewModel.class);
@@ -44,6 +51,10 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
     private void setUpView() {
         View closeButton = findViewById(R.id.close_button);
         closeButton.setOnClickListener(this);
+
+        View shuffleButton = findViewById(R.id.shuffle_button);
+        shuffleButton.setOnClickListener(this);
+
         scoreText = findViewById(R.id.score);
 
         setUpRecycler();
@@ -90,13 +101,14 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.close_button)
-            onBackPressed();
-//        switch (v.getId()) {
-//            case R.id.close_button:
-//                onBackPressed();
-//                break;
-//        }
+        switch (v.getId()) {
+            case R.id.close_button:
+                onBackPressed();
+                break;
+            case R.id.shuffle_button:
+                viewModel.shuffleProductImages();
+                break;
+        }
     }
 
     private final CardOnClickListener cardOnClickListener = new CardOnClickListener() {
@@ -109,7 +121,7 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
                     handler.postDelayed(() -> {
                         cardAdapter.buffer = false;
                         viewModel.addSelected(index);
-                    }, 1000);
+                    }, 500);
                 } else
                     viewModel.addSelected(index);
             }

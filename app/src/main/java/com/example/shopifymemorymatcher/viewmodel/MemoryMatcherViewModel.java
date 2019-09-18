@@ -39,6 +39,14 @@ public class MemoryMatcherViewModel extends AndroidViewModel {
         return scoreObservable;
     }
 
+    public void shuffleProductImages() {
+        List<ProductImage> productImages = productImagesObservable.getValue();
+        if (productImages == null)
+            productImages = new ArrayList<>();
+        Collections.shuffle(productImages);
+        ((MutableLiveData<List<ProductImage>>) productImagesObservable).setValue(productImages);
+    }
+
     public void resetProductImages() {
         List<ProductImage> productImages = productImagesObservable.getValue();
         if (productImages == null)

@@ -2,17 +2,27 @@ package com.example.shopifymemorymatcher.ui.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.shopifymemorymatcher.R;
+import com.example.shopifymemorymatcher.ui.shared.SessionManager;
 
 public class MainActivity extends Activity implements View.OnClickListener {
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sessionManager = new SessionManager(this);
+
+        if (sessionManager.isDark())
+            setTheme(R.style.AppThemeDark);
+        else
+            setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -21,6 +31,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         ImageButton shopifyButton = findViewById(R.id.shopify_button);
         shopifyButton.setOnClickListener(this);
+
+        ImageButton brightButton = findViewById(R.id.bright_button);
+        brightButton.setOnClickListener(this);
     }
 
     @Override
@@ -37,6 +50,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 "mobile-developer-intern-android-winter-2020-83902b"));
                 startActivity(browserIntent);
                 break;
+            case R.id.bright_button:
+                sessionManager.switchTheme();
+                switchTheme();
+                break;
         }
+    }
+
+    private void switchTheme() {
+        this.finish();
+        this.startActivity(new Intent(this, this.getClass()));
+        this.overridePendingTransition(0, 0);
     }
 }

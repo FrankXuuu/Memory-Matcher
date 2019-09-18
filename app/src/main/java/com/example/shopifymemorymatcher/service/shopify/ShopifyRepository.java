@@ -2,6 +2,7 @@ package com.example.shopifymemorymatcher.service.shopify;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import com.example.shopifymemorymatcher.service.model.Product;
 import com.example.shopifymemorymatcher.service.model.ProductImage;
