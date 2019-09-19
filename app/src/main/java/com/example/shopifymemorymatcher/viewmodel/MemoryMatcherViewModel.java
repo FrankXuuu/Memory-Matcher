@@ -70,10 +70,10 @@ public class MemoryMatcherViewModel extends AndroidViewModel {
 
     public void addSelected(int index) {
         selected.add(index);
+
+        List<ProductImage> productImages = productImagesObservable.getValue();
         if (selected.size() == matches) {
             List<ProductImage> compares = new ArrayList<>();
-
-            List<ProductImage> productImages = productImagesObservable.getValue();
             if (productImages != null) {
 
                 for (Integer i : selected) {

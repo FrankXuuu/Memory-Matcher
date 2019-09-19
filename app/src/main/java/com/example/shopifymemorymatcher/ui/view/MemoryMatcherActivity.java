@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,12 +26,13 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
     private TextView scoreText;
     private int uniques, columns, matches;
     private CardAdapter cardAdapter;
+    private SessionManager sessionManager;
 
     public MemoryMatcherViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        SessionManager sessionManager = new SessionManager(this);
+        sessionManager = new SessionManager(this);
 
         if (sessionManager.isDark())
             setTheme(R.style.AppThemeDark);
@@ -92,8 +92,9 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
                 (@Nullable Integer score) -> {
             if (score != null) {
                 scoreText.setText(String.format(Locale.CANADA, "%d", score));
+                sessionManager.setMaxScore(score);
                 if (score == uniques*matches) {
-                    DialogFragment dialogFragment = new WinDialogFragment();
+                    DialogFragment dialogFragment = WinDialogFragment.newInstance(uniques*matches);
                     dialogFragment.show(getSupportFragmentManager(), "win");
                 }
             }

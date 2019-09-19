@@ -39,6 +39,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         ImageButton brightButton = findViewById(R.id.bright_button);
         brightButton.setOnClickListener(this);
+
+        ImageButton scoresButton = findViewById(R.id.scores_button);
+        scoresButton.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +65,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bright_button:
                 sessionManager.switchTheme();
                 switchTheme();
+                break;
+            case R.id.scores_button:
+                DialogFragment dialogFragment1 = new ScoreDialogFragment();
+                dialogFragment1.show(getSupportFragmentManager(), "scores");
                 break;
         }
     }

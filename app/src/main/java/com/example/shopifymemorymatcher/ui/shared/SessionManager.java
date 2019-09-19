@@ -15,7 +15,7 @@ public class SessionManager {
 
     private static final String PREF_NAME = "AndroidHivePref";
     private static final String KEY_THEME = "isDark", KEY_COLUMNS = "columns",
-            KEY_MATCHES = "matches", KEY_ROWS = "rows";
+            KEY_MATCHES = "matches", KEY_ROWS = "rows", KEY_MAX_SCORE = "maxScore";
 
     // Constructor
     public SessionManager(Context context){
@@ -68,6 +68,23 @@ public class SessionManager {
         // Clearing all data from Shared Preferences
         editor.clear();
         editor.commit();
+    }
+
+    // For testing purposes
+    public void hardSetMaxScore(int score) {
+        editor.putInt(KEY_MAX_SCORE, score);
+        editor.commit();
+    }
+
+    public void setMaxScore(int score) {
+        int currentScore = pref.getInt(KEY_MAX_SCORE, 0);
+        int maxScore = score > currentScore ? score : currentScore;
+        editor.putInt(KEY_MAX_SCORE, maxScore);
+        editor.commit();
+    }
+
+    public int getMaxScore() {
+        return pref.getInt(KEY_MAX_SCORE, 0);
     }
 
     public Map getPref() {

@@ -13,6 +13,7 @@
     <string name="match_num_label">Matches</string>
     <string name="grid_size_label">Grid Size</string>
     <string name="win_message">Winner!</string>
+    <string name="top_message">Top Score</string>
 
     <string name="access_token">c32313df0d0ef512ca64d5b336a0d7c6</string>
 </resources>

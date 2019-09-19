@@ -8,10 +8,24 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.shopifymemorymatcher.R;
 
+import java.util.Locale;
+
 public class WinDialogFragment extends DialogFragment implements View.OnClickListener {
+    private int score = 24;
+
+    public static WinDialogFragment newInstance(int score) {
+
+        Bundle args = new Bundle();
+        args.putInt("score", score);
+
+        WinDialogFragment fragment = new WinDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onStart() {
@@ -23,6 +37,15 @@ public class WinDialogFragment extends DialogFragment implements View.OnClickLis
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            score = bundle.getInt("score", 24);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -31,6 +54,9 @@ public class WinDialogFragment extends DialogFragment implements View.OnClickLis
 
         view.findViewById(R.id.close_button).setOnClickListener(this);
         view.findViewById(R.id.reset_button).setOnClickListener(this);
+
+        TextView scoreMessage = view.findViewById(R.id.score_message);
+        scoreMessage.setText(String.format(Locale.CANADA, "Score: %d", score));
 
         return view;
     }

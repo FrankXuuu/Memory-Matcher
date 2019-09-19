@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorPrimary"
+    android:padding="32dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/top_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/top_message"
+        android:textSize="40sp"
+        android:textColor="?colorAccent"
+        android:fontFamily="@font/lobster"
+
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/score_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_message"
+        android:layout_marginBottom="16dp"
+        android:textSize="20sp"
+        android:textColor="?colorAccent"
+        android:fontFamily="@font/lobster"
+
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
