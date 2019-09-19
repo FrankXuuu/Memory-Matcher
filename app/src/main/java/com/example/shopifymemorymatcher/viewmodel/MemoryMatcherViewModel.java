@@ -9,7 +9,8 @@ import android.content.Context;
 import com.example.shopifymemorymatcher.R;
 import com.example.shopifymemorymatcher.service.model.ProductImage;
 import com.example.shopifymemorymatcher.service.shopify.ShopifyRepository;
-import com.example.shopifymemorymatcher.ui.adapter.CardState;
+import com.example.shopifymemorymatcher.ui.adapter.card.CardState;
+import com.example.shopifymemorymatcher.ui.shared.SessionManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +21,18 @@ public class MemoryMatcherViewModel extends AndroidViewModel {
     private final LiveData<Integer> scoreObservable;
     public final List<Integer> selected = new ArrayList<>();
 
+    private int matches;
+
     public MemoryMatcherViewModel(Application application) {
         super(application);
 
         Context context = application.getApplicationContext();
+        SessionManager sessionManager = new SessionManager(context);
+
         String accessToken = context.getString(R.string.access_token);
-        productImagesObservable = ShopifyRepository.getInstance().getProductImages(accessToken);
+        int uniques = sessionManager.getUniques();
+        matches = sessionManager.getMatches();
+        productImagesObservable = ShopifyRepository.getInstance().getProductImages(accessToken, uniques, matches);
 
         scoreObservable = new MutableLiveData<>();
         ((MutableLiveData<Integer>) scoreObservable).setValue(0);
@@ -63,39 +70,57 @@ public class MemoryMatcherViewModel extends AndroidViewModel {
 
     public void addSelected(int index) {
         selected.add(index);
-        if (selected.size() == 2) {
-            int i2 = selected.remove(1);
-            int i1 = selected.remove(0);
+        if (selected.size() == matches) {
+            List<ProductImage> compares = new ArrayList<>();
 
             List<ProductImage> productImages = productImagesObservable.getValue();
             if (productImages != null) {
-                ProductImage p1 = productImages.get(i1);
-                ProductImage p2 = productImages.get(i2);
 
-                // if same, set states to revealed
-                if (p1.getId().equals(p2.getId())) {
-                    p1.setCardState(CardState.REVEALED);
-                    productImages.set(i1, p1);
-                    p2.setCardState(CardState.REVEALED);
-                    productImages.set(i2, p2);
+                for (Integer i : selected) {
+                    compares.add(productImages.get(i));
+                }
 
+                // compare if all visible cards are equal
+                boolean equals = true;
+                for (int i = 0; i < compares.size(); i++) {
+                    for (int j = i+1; j < compares.size(); j++) {
+                        if (!compares.get(i).getId().equals(compares.get(j).getId())) {
+                            equals = false;
+                            break;
+                        }
+                    }
+
+                    if (!equals)
+                        break;
+                }
+
+                for (int i = 0; i < compares.size(); i++) {
+                    int selectedIndex = selected.get(i);
+                    ProductImage productImage = compares.get(i);
+
+                    // if same, set states to revealed
+                    if (equals)
+                        productImage.setCardState(CardState.REVEALED);
+                    // else hide it again
+                    else
+                        productImage.setCardState(CardState.HIDDEN);
+
+                    productImages.set(selectedIndex, productImage);
+                }
+
+                if (equals) {
                     Integer score = scoreObservable.getValue();
                     if (score == null)
                         score = 0;
-                    score += 2;
+                    score += matches;
                     ((MutableLiveData<Integer>)scoreObservable).setValue(score);
-                }
-                // otherwise set states back to hidden
-                else {
-                    p1.setCardState(CardState.HIDDEN);
-                    productImages.set(i1, p1);
-                    p2.setCardState(CardState.HIDDEN);
-                    productImages.set(i2, p2);
                 }
 
                 ((MutableLiveData<List<ProductImage>>)productImagesObservable)
                         .setValue(productImages);
             }
+
+            selected.clear();
         }
     }
 }

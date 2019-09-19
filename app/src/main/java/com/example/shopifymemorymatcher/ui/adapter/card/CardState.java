@@ -1,4 +1,4 @@
-package com.example.shopifymemorymatcher.ui.adapter;
+package com.example.shopifymemorymatcher.ui.adapter.card;
 
 public enum CardState {
     HIDDEN,

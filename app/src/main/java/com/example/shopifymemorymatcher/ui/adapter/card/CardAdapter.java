@@ -1,4 +1,4 @@
-package com.example.shopifymemorymatcher.ui.adapter;
+package com.example.shopifymemorymatcher.ui.adapter.card;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -96,7 +96,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CardAdapter.ViewHolder viewHolder, int i) {
-        Log.d("BINDING", "..." + i);
         ProductImage productImage = productImages.get(i);
         String url = productImage.getSrc();
         Glide.with(viewHolder.itemView.getContext()).load(url).into(viewHolder.image);

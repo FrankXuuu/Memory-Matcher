@@ -1,4 +1,4 @@
-package com.example.shopifymemorymatcher.ui.adapter;
+package com.example.shopifymemorymatcher.ui.adapter.card;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;

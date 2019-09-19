@@ -1,6 +1,6 @@
 package com.example.shopifymemorymatcher.service.model;
 
-import com.example.shopifymemorymatcher.ui.adapter.CardState;
+import com.example.shopifymemorymatcher.ui.adapter.card.CardState;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

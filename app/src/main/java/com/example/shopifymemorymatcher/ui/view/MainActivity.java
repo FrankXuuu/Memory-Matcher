@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.shopifymemorymatcher.R;
 import com.example.shopifymemorymatcher.ui.shared.SessionManager;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
     private SessionManager sessionManager;
 
     @Override
@@ -29,6 +31,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ImageButton playButton = findViewById(R.id.play_button);
         playButton.setOnClickListener(this);
 
+        ImageButton settingsButton = findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(this);
+
         ImageButton shopifyButton = findViewById(R.id.shopify_button);
         shopifyButton.setOnClickListener(this);
 
@@ -43,6 +48,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Intent activityIntent = new Intent(this,
                         MemoryMatcherActivity.class);
                 startActivity(activityIntent);
+                break;
+            case R.id.settings_button:
+                DialogFragment dialogFragment = new ConfigureSizeDialogFragment();
+                dialogFragment.show(getSupportFragmentManager(), "configure");
                 break;
             case R.id.shopify_button:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,

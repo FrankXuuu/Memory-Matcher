@@ -31,4 +31,17 @@
         <item name="android:background">@drawable/primary_rounded</item>
     </style>
 
+    <style name="ConfigureLabelText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?colorAccent</item>
+        <item name="android:fontFamily">@font/lobster</item>
+    </style>
+
+    <style name="ConfigureItemText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">?colorAccent</item>
+        <item name="android:fontFamily">@font/lobster</item>
+        <item name="android:background">@drawable/primary_rounded</item>
+    </style>
+
 </resources>

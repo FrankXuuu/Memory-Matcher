@@ -26,8 +26,18 @@
         android:src="@drawable/play"
         android:contentDescription="@string/play_description"
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline45"
+        app:layout_constraintTop_toBottomOf="@id/guideline50h"
+        style="@style/PrimaryButton"/>
+
+    <ImageButton
+        android:id="@+id/settings_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/cog"
+        android:contentDescription="@string/settings_description"
+
+        app:layout_constraintLeft_toRightOf="@id/guideline55"
         app:layout_constraintTop_toBottomOf="@id/guideline50h"
         style="@style/PrimaryButton"/>
 
@@ -86,11 +96,18 @@
         app:layout_constraintGuide_percent="0.24"/>
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline50"
+        android:id="@+id/guideline45"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.50"/>
+        app:layout_constraintGuide_percent="0.45"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline55"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline72"

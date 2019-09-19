@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.shopifymemorymatcher.service.model.Product;
 import com.example.shopifymemorymatcher.service.model.ProductImage;
 import com.example.shopifymemorymatcher.service.model.Products;
+import com.example.shopifymemorymatcher.ui.adapter.card.CardState;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,7 @@ public class ShopifyRepository {
         return shopifyRepository;
     }
 
-    public LiveData<List<ProductImage>> getProductImages(String accessToken) {
+    public LiveData<List<ProductImage>> getProductImages(String accessToken, int uniques, int matches) {
         final MutableLiveData<List<ProductImage>> data = new MutableLiveData<>();
 
         Call<Products> productsCall = shopifyClient.products(1, accessToken);
@@ -48,14 +49,16 @@ public class ShopifyRepository {
                 List<Product> products = responseBody.getProducts();
                 List<ProductImage> half = new ArrayList<>();
                 List<ProductImage> productImages = new ArrayList<>();
-                int size = products.size() < 10 ? products.size() : 10;
+                int size = products.size() < uniques ? products.size() : uniques;
                 for (int i = 0; i < size; i++) {
-                    Product product = products.get(i);
+                    int pos = i > 10 ? i + 1 : i;
+                    Product product = products.get(pos);
                     half.add(product.getImage());
                 }
 
-                productImages.addAll(half);
-                productImages.addAll(half);
+                for (int i = 0; i < matches; i++) {
+                    productImages.addAll(half);
+                }
 
                 Collections.shuffle(productImages);
 

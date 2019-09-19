@@ -14,11 +14,6 @@ import com.example.shopifymemorymatcher.R;
 public class WinDialogFragment extends DialogFragment implements View.OnClickListener {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
 

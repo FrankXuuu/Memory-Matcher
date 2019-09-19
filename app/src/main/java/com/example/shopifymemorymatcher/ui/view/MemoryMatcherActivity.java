@@ -7,15 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.shopifymemorymatcher.R;
 import com.example.shopifymemorymatcher.service.model.ProductImage;
-import com.example.shopifymemorymatcher.ui.adapter.CardAdapter;
-import com.example.shopifymemorymatcher.ui.adapter.CardOnClickListener;
-import com.example.shopifymemorymatcher.ui.adapter.CardState;
-import com.example.shopifymemorymatcher.ui.adapter.CustomGridLayoutManager;
+import com.example.shopifymemorymatcher.ui.adapter.card.CardAdapter;
+import com.example.shopifymemorymatcher.ui.adapter.card.CardOnClickListener;
+import com.example.shopifymemorymatcher.ui.adapter.card.CardState;
+import com.example.shopifymemorymatcher.ui.adapter.card.CustomGridLayoutManager;
 import com.example.shopifymemorymatcher.ui.shared.SessionManager;
 import com.example.shopifymemorymatcher.viewmodel.MemoryMatcherViewModel;
 
@@ -24,8 +25,7 @@ import java.util.Locale;
 
 public class MemoryMatcherActivity extends FragmentActivity implements View.OnClickListener{
     private TextView scoreText;
-    // TODO: add configurable rows and columns
-    private int rows, columns;
+    private int uniques, columns, matches;
     private CardAdapter cardAdapter;
 
     public MemoryMatcherViewModel viewModel;
@@ -41,6 +41,10 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
         super.onCreate(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(MemoryMatcherViewModel.class);
+
+        uniques = sessionManager.getUniques();
+        columns = sessionManager.getColumns();
+        matches = sessionManager.getMatches();
 
         setContentView(R.layout.activity_memory_matcher);
         setUpView();
@@ -61,9 +65,6 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
     }
 
     private void setUpRecycler() {
-        rows = 5;
-        columns = 4;
-
         RecyclerView recyclerView = findViewById(R.id.card_recycler);
         CustomGridLayoutManager customGridLayoutManager = new CustomGridLayoutManager(this, columns) {
             @Override
@@ -91,7 +92,7 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
                 (@Nullable Integer score) -> {
             if (score != null) {
                 scoreText.setText(String.format(Locale.CANADA, "%d", score));
-                if (score == 20) {
+                if (score == uniques*matches) {
                     DialogFragment dialogFragment = new WinDialogFragment();
                     dialogFragment.show(getSupportFragmentManager(), "win");
                 }
@@ -115,7 +116,7 @@ public class MemoryMatcherActivity extends FragmentActivity implements View.OnCl
         @Override
         public void onClick(int index, CardState cardState) {
             if (cardState == CardState.VISIBLE) {
-                if (viewModel.selected.size() == 1) {
+                if (viewModel.selected.size() == matches-1) {
                     cardAdapter.buffer = true;
                     final Handler handler = new Handler();
                     handler.postDelayed(() -> {
