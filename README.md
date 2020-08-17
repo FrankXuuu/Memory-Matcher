@@ -1,6 +1,6 @@
-# ShopifyMobileChallenge
+# Memory Matcher
 
-Shopify Mobile Intern Challenge Winter 2020: Memory matching mobile app for Android.
+Memory matching mobile app for Android.
 
 
 ### Libraries used in this project:
